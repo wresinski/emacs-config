@@ -21,6 +21,7 @@
 
 (global-set-key (kbd "C-q") 'other-frame)
 
+;;(setq visible-bell 0)
 (setq ring-bell-function 'ignore)
 
 (xterm-mouse-mode 1)
@@ -34,7 +35,6 @@
   "Open a new instance of eshell."
   (interactive)
   (eshell 'N))
-;;(setq visible-bell 0)
 
 (defun my-shell-mode-setup-function () 
   (when (fboundp 'company-mode))
@@ -104,11 +104,11 @@
   (setq use-package-always-demand nil)
   (setq use-package-expand-minimally t)
   (setq use-package-verbose t))
-
-(require 'use-package)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; 加载插件
+(require 'use-package)
+
 (use-package zenburn-theme
   :init
   (setq zenburn-override-colors-alist
@@ -169,17 +169,3 @@
 (setq company-minimum-prefix-length 1
       company-idle-delay 0.0) ;; default is 0.2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(lsp-mode yasnippet lsp-treemacs helm-lsp projectile hydra flycheck company avy which-key helm-xref dap-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
