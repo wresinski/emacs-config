@@ -36,12 +36,7 @@
   (interactive)
   (eshell 'N))
 
-(defun my-shell-mode-setup-function () 
-  (when (fboundp 'company-mode))
-    (company-mode -1))
-(add-hook 'shell-mode-hook 'my-shell-mode-setup-function)
-(add-hook 'eshell-mode-hook 'my-shell-mode-setup-function)
-
+(add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
 
 (setq-default c-basic-offset 4)
 ;;linux kernel style
@@ -139,33 +134,52 @@
   :init
   (smooth-scrolling-mode 1)
   (setq smooth-scroll-margin 5))
+
+;;(use-package vterm)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; lsp-mode
-(setq package-selected-packages '(lsp-mode yasnippet lsp-treemacs helm-lsp
-    projectile hydra flycheck company avy which-key helm-xref dap-mode))
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (c-mode . lsp-deferred)
+         (c++-mode . lsp-deferred)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp lsp-deferred)
 
-(when (cl-find-if-not #'package-installed-p package-selected-packages)
-  (package-refresh-contents)
-  (mapc #'package-install package-selected-packages))
+;; optionally
+;;(use-package lsp-ui :commands lsp-ui-mode)
+;; if you are helm user
+;;(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+;;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;;(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
-(which-key-mode)
-(add-hook 'c-mode-hook 'lsp)
-(add-hook 'c++-mode-hook 'lsp)
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
-      treemacs-space-between-root-nodes nil
-      company-idle-delay 0.0
-      company-minimum-prefix-length 1
-      lsp-idle-delay 0.1)  ;; clangd is fast
+;; optional if you want which-key integration
+;;(use-package which-key
+;;    :config
+;;    (which-key-mode))
 
-(with-eval-after-load 'lsp-mode
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (require 'dap-cpptools)
+(use-package yasnippet
+  :init
   (yas-global-mode))
 
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-minimum-prefix-length 1
-      company-idle-delay 0.0) ;; default is 0.2
+(use-package company
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-minimum-prefix-length 1
+	company-idle-delay 0.0) ;; default is 0.2
+  ;; shell和eshell中禁止补全
+  (defun my-shell-mode-setup-function () 
+    (when (fboundp 'company-mode))
+    (company-mode -1))
+  (add-hook 'shell-mode-hook 'my-shell-mode-setup-function)
+  (add-hook 'eshell-mode-hook 'my-shell-mode-setup-function))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
