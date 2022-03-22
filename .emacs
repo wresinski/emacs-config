@@ -26,8 +26,23 @@
 
 (xterm-mouse-mode 1)
 
+(require 'display-line-numbers)
+(defcustom display-line-numbers-exempt-modes
+  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
+  "Major modes on which to disable line numbers."
+  :group 'display-line-numbers
+  :type 'list
+  :version "green")
+(defun display-line-numbers--turn-on ()
+  "Turn on line numbers except for certain major modes.
+Exempt major modes are defined in `display-line-numbers-exempt-modes'."
+  (unless (or (minibufferp)
+              (member major-mode display-line-numbers-exempt-modes))
+    (display-line-numbers-mode)))
+(global-display-line-numbers-mode)
+
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode t)
+;;(global-display-line-numbers-mode t)
 
 (setq compilation-scroll-output t)
 
@@ -37,6 +52,13 @@
   (eshell 'N))
 
 (add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
+
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
+(setq mouse-wheel-scroll-amount '(3))
+(setq mouse-wheel-progressive-speed nil)
+(setq scroll-margin 5)
 
 (setq-default c-basic-offset 4)
 ;;linux kernel style
@@ -129,11 +151,6 @@
   :init
   (setq default-input-method "pyim")
   (global-set-key (kbd "C-\\") 'toggle-input-method))
-
-(use-package smooth-scrolling
-  :init
-  (smooth-scrolling-mode 1)
-  (setq smooth-scroll-margin 5))
 
 ;;(use-package vterm)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
