@@ -58,7 +58,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (setq auto-window-vscroll nil)
 (setq mouse-wheel-scroll-amount '(3))
 (setq mouse-wheel-progressive-speed nil)
-(setq scroll-margin 5)
+;;(setq scroll-margin 5)
 
 (setq-default c-basic-offset 4)
 ;;linux kernel style
@@ -152,7 +152,30 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (setq default-input-method "pyim")
   (global-set-key (kbd "C-\\") 'toggle-input-method))
 
-;;(use-package vterm)
+(use-package winner
+  :ensure nil
+  ;;:after evil
+  :init
+  (winner-mode 1)
+  :bind (:map evil-window-map
+	      ("u" . winner-undo)
+	      ("U" . winner-redo))
+  :config
+  (winner-mode))
+
+;;(use-package vterm
+;;  :init
+;;  (evil-define-key 'normal vterm-mode-map "h" 'vterm-send-left)
+;;  (evil-define-key 'normal vterm-mode-map "l" 'vterm-send-right)
+;;  (evil-define-key 'normal vterm-mode-map "b" 'vterm-send-M-b)
+;;  (evil-define-key 'normal vterm-mode-map "e" 'vterm-send-M-f)
+;;  (evil-define-key 'normal vterm-mode-map "db" 'vterm-send-C-w)
+;;  (evil-define-key 'normal vterm-mode-map "de" 'vterm-send-M-d)
+;;  (evil-define-key 'normal vterm-mode-map "p" 'vterm-yank)
+;;  (evil-define-key 'normal vterm-mode-map "P" '(lambda ()
+;;						 (interactive)
+;;						 (vterm-send-C-b)
+;;						 (vterm-yank))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; lsp-mode
