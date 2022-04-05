@@ -140,7 +140,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (use-package undo-tree
   :init
   (global-undo-tree-mode)
-  (evil-set-undo-system 'undo-tree))
+  (evil-set-undo-system 'undo-tree)
+  (setq evil-want-fine-undo t))
 
 (use-package neotree
   :init
