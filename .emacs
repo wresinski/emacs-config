@@ -28,7 +28,7 @@
 
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
-  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
+  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode gud-mode)
   "Major modes on which to disable line numbers."
   :group 'display-line-numbers
   :type 'list
@@ -41,7 +41,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
     (display-line-numbers-mode)))
 (global-display-line-numbers-mode)
 
-(setq display-line-numbers-type 'relative)
+;;(setq display-line-numbers-type 'relative)
 ;;(global-display-line-numbers-mode t)
 
 (setq compilation-scroll-output t)
@@ -148,6 +148,12 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (global-set-key [f5] 'neotree-toggle)
   (global-set-key [f8] 'neotree-refresh))
 
+;;(use-package treemacs
+;;  :bind
+;;  (:map global-map
+;;        ([f5]   . treemacs)
+;;        ([f8]   . treemacs-select-directory)))
+
 (use-package pyim
   :init
   (setq default-input-method "pyim")
@@ -194,7 +200,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;; optionally
 ;;(use-package lsp-ui :commands lsp-ui-mode)
 ;; if you are helm user
-;;(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
 ;;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 ;;(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
@@ -222,7 +228,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
     (when (fboundp 'company-mode))
     (company-mode -1))
   (add-hook 'shell-mode-hook 'my-shell-mode-setup-function)
-  (add-hook 'eshell-mode-hook 'my-shell-mode-setup-function))
+  (add-hook 'eshell-mode-hook 'my-shell-mode-setup-function)
+  (add-hook 'gud-mode-hook 'my-shell-mode-setup-function))
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
