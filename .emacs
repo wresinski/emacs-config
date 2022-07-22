@@ -1,5 +1,5 @@
 ;; 初始化设置
-(setq command-line-default-directory "D:/home/Asteruser/code")
+(setq command-line-default-directory "/cygdrive/d/")
 
 (set-terminal-coding-system 'utf-8)
 (modify-coding-system-alist 'process "*" 'utf-8)
@@ -8,7 +8,7 @@
 (prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
 
-(set-face-attribute 'default nil :family "Consolas Nerd Font Mono" :height 120)
+(set-face-attribute 'default nil :family "Consolas" :height 120)
 ;; Setting Chinese Font
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font (frame-parameter nil 'font)
@@ -25,6 +25,9 @@
 (setq ring-bell-function 'ignore)
 
 (xterm-mouse-mode 1)
+;; 终端下的鼠标滚轮支持
+(global-set-key [mouse-4] 'scroll-down-line)
+(global-set-key [mouse-5] 'scroll-up-line)
 
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
@@ -59,6 +62,9 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (setq mouse-wheel-scroll-amount '(3))
 (setq mouse-wheel-progressive-speed nil)
 ;;(setq scroll-margin 5)
+
+;; 将默认shell改为cmd
+;;(setq shell-file-name "cmd")
 
 (setq-default c-basic-offset 4)
 ;;linux kernel style
@@ -96,8 +102,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; 包管理器设置
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                           ("melpa" . "http://elpa.emacs-china.org/melpa/")))
+(setq package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
 
 (setq package-check-signature nil) ;个别时候会出现签名校验失败
 
