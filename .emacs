@@ -1,5 +1,5 @@
 ;; 初始化设置
-(setq command-line-default-directory "/cygdrive/d/")
+(setq command-line-default-directory "~/")
 
 (set-terminal-coding-system 'utf-8)
 (modify-coding-system-alist 'process "*" 'utf-8)
@@ -8,12 +8,12 @@
 (prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
 
-(set-face-attribute 'default nil :family "Consolas" :height 120)
+(set-face-attribute 'default nil :family "Consolas" :height 110)
 ;; Setting Chinese Font
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font (frame-parameter nil 'font)
             charset
-            (font-spec :family "Microsoft Yahei" :height 120)))
+            (font-spec :family "Microsoft Yahei" :height 110)))
 
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -31,7 +31,7 @@
 
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
-  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode gud-mode)
+  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode gud-mode neotree-mode)
   "Major modes on which to disable line numbers."
   :group 'display-line-numbers
   :type 'list
@@ -66,6 +66,15 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;; 将默认shell改为cmd
 ;;(setq shell-file-name "cmd")
 
+(setq
+ backup-by-copying t ; 自动备份
+ backup-directory-alist
+ '(("." . "~/.backup")) ; 自动备份在目录"~/.backup"下
+ delete-old-versions t ; 自动删除旧的备份文件
+ kept-new-versions 3 ; 保留最近的3个备份文件
+ kept-old-versions 1 ; 保留最早的1个备份文件
+ version-control t) ; 多次备份
+
 (setq-default c-basic-offset 4)
 ;;linux kernel style
 ;;(defun c-lineup-arglist-tabs-only (ignored)
@@ -97,6 +106,9 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;;                (setq indent-tabs-mode t)
 ;;                (setq show-trailing-whitespace t)
 ;;                (c-set-style "linux-tabs-only")))))
+
+(with-eval-after-load 'org
+  (add-to-list 'org-export-backends 'md))
 
 (server-start)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -132,16 +144,21 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;; 加载插件
 (require 'use-package)
 
+(use-package evil
+  :init
+  (evil-mode 1))
+
 (use-package zenburn-theme
   :init
   (setq zenburn-override-colors-alist
       '(("zenburn-bg" . "#2B2B2B")
-	("zenburn-bg-1" . "#3F3F3F")))
+  	("zenburn-bg-1" . "#3F3F3F")))
   (load-theme 'zenburn t))
 
-(use-package evil
-  :init
-  (evil-mode 1))
+;;(use-package spaceline
+;;  :init
+;;  ;;(setq powerline-default-separator 'arrow)
+;;  (spaceline-spacemacs-theme))
 
 (use-package undo-tree
   :init
@@ -175,6 +192,9 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 	      ("U" . winner-redo))
   :config
   (winner-mode))
+
+;;(use-package cuda-mode)
+;;(use-package glsl-mode)
 
 ;;(use-package vterm
 ;;  :init
@@ -216,9 +236,9 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
 ;; optional if you want which-key integration
-;;(use-package which-key
-;;    :config
-;;    (which-key-mode))
+(use-package which-key
+    :config
+    (which-key-mode))
 
 (use-package yasnippet
   :init
