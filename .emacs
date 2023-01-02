@@ -198,6 +198,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 ;;(use-package vterm
 ;;  :init
+;;  (evil-define-key 'normal vterm-mode-map (kbd "C-q") 'other-frame)
 ;;  (evil-define-key 'normal vterm-mode-map "h" 'vterm-send-left)
 ;;  (evil-define-key 'normal vterm-mode-map "l" 'vterm-send-right)
 ;;  (evil-define-key 'normal vterm-mode-map "b" 'vterm-send-M-b)
