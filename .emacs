@@ -146,7 +146,14 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 (use-package evil
   :init
-  (evil-mode 1))
+  (evil-mode 1)
+  ;;修正:q和:wq的行为
+  (global-set-key [remap evil-quit] 'kill-buffer-and-window)
+  (defun save-and-kill-buffer ()
+    (interactive)
+    (save-buffer)
+    (kill-buffer-and-window))
+  (global-set-key [remap evil-save-and-close] 'save-and-kill-buffer))
 
 (use-package zenburn-theme
   :init
