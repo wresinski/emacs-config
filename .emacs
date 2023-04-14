@@ -147,13 +147,15 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (use-package evil
   :init
   (evil-mode 1)
-  ;;修正:q和:wq的行为
-  (global-set-key [remap evil-quit] 'kill-buffer-and-window)
+  ;;修正:q :wq :x的行为
+  ;;(global-set-key [remap evil-quit] 'kill-buffer-and-window)
   (defun save-and-kill-buffer ()
     (interactive)
     (save-buffer)
     (kill-buffer-and-window))
-  (global-set-key [remap evil-save-and-close] 'save-and-kill-buffer))
+  (global-set-key [remap evil-save-and-close] 'save-and-kill-buffer)
+  ;;(global-set-key [remap evil-save-modified-and-close] 'save-and-kill-buffer)
+  )
 
 (use-package zenburn-theme
   :init
@@ -199,6 +201,19 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 	      ("U" . winner-redo))
   :config
   (winner-mode))
+
+(use-package projectile
+  :init
+  (projectile-global-mode 1)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-enable-caching t))
+
+(use-package helm-projectile
+  :init
+  (helm-projectile-on)
+  (define-key helm-map (kbd "<tab>") 'helm-next-line)
+  (define-key helm-map (kbd "<backtab>") 'helm-previous-line)
+  (global-set-key (kbd "C-c C-f") 'helm-projectile-find-file))
 
 ;;(use-package cuda-mode)
 ;;(use-package glsl-mode)
@@ -258,7 +273,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (setq company-minimum-prefix-length 1
 	company-idle-delay 0.0) ;; default is 0.2
   (with-eval-after-load 'company
-    (define-key company-active-map [tab] 'company-select-next))
+    (define-key company-active-map [tab] 'company-select-next)
+    (define-key company-active-map [backtab] 'company-select-previous))
   ;; shell和eshell中禁止补全
   (defun my-shell-mode-setup-function () 
     (when (fboundp 'company-mode))
