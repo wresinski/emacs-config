@@ -211,8 +211,9 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (use-package helm-projectile
   :init
   (helm-projectile-on)
-  (define-key helm-map (kbd "<tab>") 'helm-next-line)
+  (define-key helm-map (kbd "TAB") 'helm-next-line)
   (define-key helm-map (kbd "<backtab>") 'helm-previous-line)
+  (define-key helm-map (kbd "<escape>") 'helm-keyboard-quit)
   (global-set-key (kbd "C-c C-f") 'helm-projectile-find-file))
 
 ;;(use-package cuda-mode)
